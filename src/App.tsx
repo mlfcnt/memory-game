@@ -29,8 +29,6 @@ function App() {
   //   alert("Victory royale !");
   // }, [cards]);
 
-  console.log({ config });
-
   return (
     <>
       <h1>Memory card game</h1>
