@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import type { Card as CardType } from "./types";
-import { generateInitialCardState } from "./cardActions/generateInitialCardsState";
+import { useGenerateInitialCardState } from "./cardActions/generateInitialCardsState";
 import { Card } from "./components/Card";
 import { onCardClick } from "./cardActions/onCardClick";
 import { GridLengthForm } from "./components/GridLengthForm";
@@ -14,12 +14,16 @@ function App() {
     columns: null,
     rows: null,
   });
-  const { cards: initialCardsState } = generateInitialCardState({
+  const { cards: initialCardsState } = useGenerateInitialCardState({
     columns: config.columns,
     rows: config.rows,
   });
 
-  const [cards, setCards] = useState<CardType[]>(() => initialCardsState);
+  useEffect(() => {
+    setCards(initialCardsState);
+  }, [initialCardsState]);
+
+  const [cards, setCards] = useState<CardType[]>([]);
   const [previouslySelectedCardId, setPreviouslySelectedCardId] = useState<
     CardType["id"] | null
   >(null);
