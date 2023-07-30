@@ -14,6 +14,11 @@ export const GridLengthForm = ({ setConfig }: Props) => {
     event.preventDefault();
     const columns = Number((event.target as any).columns.value);
     const rows = Number((event.target as any).rows.value);
+
+    if ((columns * rows) % 2 !== 0) {
+      alert("You must provide an even number of cards");
+      return;
+    }
     setConfig({ columns, rows });
   };
   return (
@@ -26,13 +31,13 @@ export const GridLengthForm = ({ setConfig }: Props) => {
       <Flex>
         <Flex>
           <label htmlFor="columns">Columns</label>
-          <input type="number" id="columns" />
+          <input type="number" id="columns" defaultValue={4} />
         </Flex>
         <Flex>
           <label htmlFor="rows">Rows</label>
-          <input type="number" id="rows" />
+          <input type="number" id="rows" defaultValue={3} />
         </Flex>
-        <button type="submit">Generate</button>
+        <button type="submit">Generate grid</button>
       </Flex>
     </form>
   );
@@ -44,6 +49,7 @@ const Flex = ({ children }: { children: ReactNode }) => {
       style={{
         display: "flex",
         gap: "14px",
+        alignItems: "center",
       }}
     >
       {children}

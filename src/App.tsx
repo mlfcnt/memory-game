@@ -27,38 +27,43 @@ function App() {
   const [previouslySelectedCardId, setPreviouslySelectedCardId] = useState<
     CardType["id"] | null
   >(null);
+  const [moves, setMoves] = useState(0);
 
-  // useEffect(() => {
-  //   if (cards.some((card) => !card.hasBeenMatched)) return;
-  //   alert("Victory royale !");
-  // }, [cards]);
+  useEffect(() => {
+    if (!cards.length || cards.some((card) => !card.hasBeenMatched)) return;
+    alert(`You won in ${moves} moves !`);
+  }, [cards, moves]);
 
   return (
     <>
-      <h1>Memory card game</h1>
+      <h1>Basic pair card game</h1>
       <GridLengthForm setConfig={setConfig} />
       {config.columns && config.rows ? (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: `repeat(${config.columns}, 1fr)`,
-            gap: "14px",
-          }}
-        >
-          {cards.map((card) => (
-            <Card
-              card={card}
-              onClick={() =>
-                onCardClick({
-                  clickedCard: card,
-                  previouslySelectedCardId,
-                  setCards,
-                  setPreviouslySelectedCardId,
-                })
-              }
-            />
-          ))}
-        </div>
+        <>
+          <p>Moves : {moves}</p>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: `repeat(${config.columns}, 1fr)`,
+              gap: "14px",
+            }}
+          >
+            {cards.map((card) => (
+              <Card
+                card={card}
+                onClick={() => {
+                  setMoves((moves) => moves + 1);
+                  onCardClick({
+                    clickedCard: card,
+                    previouslySelectedCardId,
+                    setCards,
+                    setPreviouslySelectedCardId,
+                  });
+                }}
+              />
+            ))}
+          </div>
+        </>
       ) : null}
     </>
   );

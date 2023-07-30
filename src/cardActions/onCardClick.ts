@@ -15,9 +15,19 @@ export const onCardClick = ({
   setPreviouslySelectedCardId,
   setCards,
 }: Props) => {
+  const resetCards = () => {
+    setCards((cards) =>
+      cards.map((card) => ({
+        ...card,
+        isFlipped: false,
+      }))
+    );
+  };
+
   if (previouslySelectedCardId == undefined) {
     // si pas de "sister card en attente, on enregistre l'id de la carte cliquée"
     setPreviouslySelectedCardId(clickedCard.id);
+    resetCards();
   } else {
     // si une "sister card" est en attente, on compare les 2 cartes
     // si les 2 cartes sont identiques, on les laisse retournées
@@ -38,12 +48,7 @@ export const onCardClick = ({
       );
     } else {
       // si les 2 cartes sont différentes, on les retourne
-      setCards((cards) =>
-        cards.map((card) => ({
-          ...card,
-          isFlipped: false,
-        }))
-      );
+      resetCards();
     }
     setPreviouslySelectedCardId(null);
   }
